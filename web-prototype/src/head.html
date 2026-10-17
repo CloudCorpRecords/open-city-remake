@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+<meta name="theme-color" content="#0b0e13">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<link rel="manifest" href="./manifest.webmanifest">
+<link rel="apple-touch-icon" href="./icons/icon-180.png">
+<title>Open City &mdash; District 0 Prototype</title>
+<style>
+  html, body {
+    margin: 0; padding: 0; height: 100%; overflow: hidden;
+    background: #0b0e13; color: #e8ecf1;
+    font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+  }
+  #game-canvas { position: fixed; inset: 0; width: 100%; height: 100%; display: block; touch-action: none; }
+  .chip {
+    position: fixed; z-index: 5;
+    background: rgba(8, 10, 14, 0.8);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 8px; padding: 8px 12px;
+    font-size: 12px; line-height: 1.5;
+    pointer-events: none; white-space: nowrap;
+  }
+  #topbar-left { top: 12px; left: 12px; }
+  #topbar-right { top: 12px; right: 12px; text-align: right; }
+  #topbar-left .title { font-weight: 800; letter-spacing: 0.06em; font-size: 14px; }
+  #topbar-left .sub { color: #aeb8c4; font-size: 11px; }
+  #help { left: 12px; bottom: 12px; color: #c6cdd6; }
+  #help b { color: #fff; font-weight: 600; }
+  #badge {
+    left: 50%; bottom: 18px; transform: translateX(-50%);
+    color: #ffc857; border-color: rgba(255, 200, 87, 0.35);
+    font-weight: 700; letter-spacing: 0.05em; display: none;
+  }
+  #mission {
+    left: 50%; top: 12px; transform: translateX(-50%);
+    color: #ffe9a8;
+  }
+  #prompt {
+    left: 50%; bottom: 64px; transform: translateX(-50%);
+    color: #d7dee8; display: none;
+  }
+  #stars { color: #ffd34d; font-weight: 700; }
+  #nogl {
+    left: 50%; top: 12px; transform: translateX(-50%);
+    color: #ff9d9d; border-color: rgba(255, 120, 120, 0.35); display: none;
+  }
+  #minimap {
+    position: fixed; z-index: 5; right: 12px; bottom: 12px;
+    width: 148px; height: 148px;
+    background: rgba(8, 10, 14, 0.72);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 6px; pointer-events: none;
+  }
+</style>
+</head>
+<body>
+<canvas id="game-canvas"></canvas>
+<div class="chip" id="topbar-left">
+  <div class="title">OPEN CITY &mdash; DISTRICT 0</div>
+  <div class="sub">original prototype &middot; <span id="clock">08:00</span> &middot; <span id="phase">Morning</span> &middot; <span id="stars"></span></div>
+</div>
+<div class="chip" id="topbar-right">
+  <div><span id="fps">--</span> fps</div>
+  <div class="sub" id="mode">webgl</div>
+</div>
+<div class="chip" id="help">
+  <b>WASD / arrows</b> move &middot; <b>Shift</b> sprint &middot; <b>Space</b> jump<br>
+  <b>E</b> enter / exit car &middot; <b>drag</b> orbit &middot; <b>wheel</b> zoom &middot; <b>N</b> night
+</div>
+<div class="chip" id="mission">Objective: pick up the package</div>
+<div class="chip" id="prompt"></div>
+<div class="chip" id="badge"><span id="badge-text"></span></div>
+<div class="chip" id="nogl">WebGL unavailable &mdash; logic-only mode</div>
+<canvas id="minimap" width="148" height="148"></canvas>
+<script type="module">
